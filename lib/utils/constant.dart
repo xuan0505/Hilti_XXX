@@ -22,10 +22,10 @@ Image hiltiLogo(BuildContext context, double width) {
 }
 
 var banner = [
-  "assets/images/banner1.png",
-  "assets/images/banner2.png",
-  "assets/images/banner3.png",
-  "assets/images/banner4.png",
+  "assets/images/banner/banner1.png",
+  "assets/images/banner/banner2.png",
+  "assets/images/banner/banner3.png",
+  "assets/images/banner/banner4.png",
 ];
 
 var previewImage = [

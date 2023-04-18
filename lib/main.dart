@@ -14,7 +14,7 @@ class HiltiComp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: chatbotPage(),
+      home: LoadingPage(),
     );
   }
 }

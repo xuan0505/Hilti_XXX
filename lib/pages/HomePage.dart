@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:hilti_xxx/pages/chatbotPage.dart';
 import 'package:hilti_xxx/pages/cordlessOne.dart';
 import 'package:hilti_xxx/utils/constant.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -46,6 +47,8 @@ class _HomePageState extends State<HomePage> {
       _pageIndex = index;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +294,16 @@ class _HomePageState extends State<HomePage> {
                     getScreenHeight(context) * 0.79),
                 child: GestureDetector(
                     onTap: () {
-                      // pop up chat
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return enableChatbot(context);
+                          });
+                      focusNode.addListener(() {
+                        containerHeight = focusNode.hasFocus
+                            ? getScreenHeight(context) * 0.35
+                            : getScreenHeight(context) * 0.7;
+                      });
                     },
                     child: Image.asset(
                       "assets/images/chat.png",
