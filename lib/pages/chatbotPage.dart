@@ -2,8 +2,7 @@ import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constant.dart';
-import 'package:flutter_dialogflow/dialogflow_v2.dart';
-
+import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'cordlessFour.dart';
 
 final messageController = TextEditingController();
@@ -12,16 +11,23 @@ final focusNode = FocusNode();
 double containerHeight = 500;
 
 void response(query) async {
-  AuthGoogle authGoogle =
-      await AuthGoogle(fileJson: "assets/hilti.json").build();
+  DialogAuthCredentials credentials = await DialogAuthCredentials.fromFile("assets/hilti.json");
+  DialogFlowtter instance = DialogFlowtter(
+    credentials: credentials,
+  );
+  QueryInput queryInput = QueryInput(
+    text: TextInput(
+      text: query,
+      languageCode: "en",
+    ),
+  );
 
-  Dialogflow dialogflow =
-      Dialogflow(authGoogle: authGoogle, language: Language.english);
+  DetectIntentResponse response = await instance.detectIntent(
+    queryInput: queryInput,
+  );
 
-  AIResponse response = await dialogflow.detectIntent(query);
+  String? selectedMessage = response.text;
 
-  String selectedMessage =
-      response.getListMessage()[0]["text"]["text"][0].toString();
   messages.insert(0, {"data": 0, "message": selectedMessage});
 }
 
