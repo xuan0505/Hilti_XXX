@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +11,7 @@ final messageController = TextEditingController();
 List<Map> messages = [];
 final focusNode = FocusNode();
 double containerHeight = 500;
+var prevIntents = ListQueue(3);
 
 void response(query) async {
   DialogAuthCredentials credentials = await DialogAuthCredentials.fromFile("assets/hilti.json");
@@ -27,8 +30,20 @@ void response(query) async {
   );
 
   String? selectedMessage = response.text;
+  String? intentName = response.queryResult?.intent?.displayName;
 
-  messages.insert(0, {"data": 0, "message": selectedMessage});
+  if (prevIntents.length == 3){
+    prevIntents.removeFirst();
+  }
+  prevIntents.add(intentName);
+
+  if (prevIntents.every((var element) => element == "Default Fallback Intent")) {
+    messages.insert(0, {"data": 0, "message": "It seems like I may not be able to help you. You could contact us at myhilti@hilti.com for further assistance."});
+  } else {
+    messages.insert(0, {"data": 0, "message": selectedMessage});
+  }
+  print(prevIntents);
+
 }
 
 GestureDetector enableChatbot(BuildContext context) {
